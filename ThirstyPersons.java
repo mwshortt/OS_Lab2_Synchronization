@@ -22,7 +22,7 @@ import java.util.concurrent.Semaphore;
  * 2. Signal( a[k] )
  * 
  * Drinker blanks
- * 3. Wait( a[i] )
+ * 3. Wait( a[r] )
  * 4. Signal( server )
  *
  */
