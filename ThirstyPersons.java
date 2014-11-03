@@ -104,13 +104,18 @@ public class ThirstyPersons {
 					if(i!=j)
 					{
 						try {
+
+							System.out.println("Server TRYING to enter Critical Section");
 							//if the server semaphore is free it means that the drinker
 							//is finished drinking so the server can put out new ingredients
 							server.acquire();
+
+							System.out.println("Server ENTERED the Critical Section");
 							//identify the drinker with the k-th ingredient
 							//this is the drinker that has the third ingredient not present 
 							//on the table
 							k = 3-(i+j);
+							System.out.println("Drinker " + k + "selected and signaled");
 							//we signal the drinker with the k-th ingredient because this
 							//drinker can now drink because they can have all three ingredients
 							a[k].release();
@@ -137,9 +142,15 @@ public class ThirstyPersons {
 						//if the semaphore for this drinker's ingredient is free
 						//it means that the other two ingredients needed to drink
 						//are available!
+						System.out.println("Drinker " + ingredient + " TRYING to enter Critical Section");
 						a[ingredient].acquire();
+
+						System.out.println("Drinker " + ingredient + " ENTERED Critical Section");
+
 						//critical section
 						drink(ingredient);
+
+						System.out.println("Signalling the server");
 						//signal to the server that the drinker is done drinking
 						//by releasing the server semaphore
 						server.release();
@@ -172,8 +183,8 @@ public class ThirstyPersons {
 			drinker = "cup";
 			break;
 		}
-		//Print out which drinker is currently drinking
-		System.out.println("The drinker that is holding the "+drinker+" is currently drinking!");
+		// Print out which drinker is currently drinking
+		// System.out.println("The drinker that is holding the "+drinker+" is currently drinking!");
 	}
 	
 }

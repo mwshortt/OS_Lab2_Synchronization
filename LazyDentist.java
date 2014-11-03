@@ -47,7 +47,7 @@ public class LazyDentist {
 	
 	//Total number of seats in the waiting room 
 	//For this example we are assuming that this will always be 3
-	int numberOfFreeWRSeats = 3;
+	int numberOfFreeWRSeats;
 	
 	//An array of threads to hold the threads of the patients 
 	Thread[] patients;
@@ -66,6 +66,10 @@ public class LazyDentist {
 	 * @param args - takes in one integer as the number of patients
 	 */
 	public static void main(String[] args) {
+
+		// assume N=3
+		numberOfFreeWRSeats = 3;
+		
 		//check to make sure that the appropriate number of parameters were passed in
 		if(args.length != 1)
 		{
