@@ -1,7 +1,12 @@
 public class Questions3 {
+
 	public static void main(String args[]) throws InterruptedException{
+
+		//method call to test one agent and one spy
 		oneSpyTest();
-		multiSpyTest();
+
+		//method call to test multiple spies and agents
+		multiSpyTest(7);
 	}
 
 	public static void oneSpyTest() throws InterruptedException{
@@ -13,22 +18,20 @@ public class Questions3 {
 		
 	}
 
-	public static void multiSpyTest() throws InterruptedException{
+	public static void multiSpyTest(int numAgents) throws InterruptedException{
 		Espionage espionage_multi=new Espionage();
-		int numSpies=7;
-		int numAgents=7;
+
+		// num of agents is 
 		Agent[] agent=new Agent[numAgents];
-		Spy[] spy=new Spy[numSpies];
+		Spy[] spy=new Spy[numAgents];
 		
 		for(int i=0;i<spy.length;i++){
 			spy[i]=new Spy(espionage_multi);
-			spy[i].sendMessage(Integer.toString(i));
-		}
-		
-		for(int i=0;i<agent.length;i++){
 			agent[i]=new Agent(espionage_multi);
+			spy[i].sendMessage(Integer.toString(i));
 			System.out.println(agent[i].getMessage());
 		}
+		
 		
 	}
 }
