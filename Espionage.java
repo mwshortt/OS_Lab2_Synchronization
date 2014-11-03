@@ -16,6 +16,8 @@ public class Espionage extends Thread{
 		if (name.equals("agent")){
 			try {
 				System.out.println("Starting agent: "+ID);
+                
+                //essential to synchronize the method agentPickMsg
 				synchronized(monitor){
                     agentPickMsg();}
 			} catch (InterruptedException e) {
@@ -25,6 +27,8 @@ public class Espionage extends Thread{
 		
 		if (name.equals("spy")){
 			try {
+                
+                //essential to synchronize the method agentPickMsg
 				synchronized(monitor){
                     System.out.println("Starting spy: "+ID);
                     dropSpyMsg();}
@@ -37,6 +41,7 @@ public class Espionage extends Thread{
     public synchronized void dropSpyMsg() throws InterruptedException{
 		
 		// wait until there is no previous message
+        // wait needs to be synchronized
 		while(!message.isEmpty()){
 			synchronized(monitor){
                 System.out.println("Spy: "+ID +" is waiting");
@@ -47,6 +52,7 @@ public class Espionage extends Thread{
 		
 		// A spy writes the message on a piece of paper
 		// and drops it at a predetermined location
+        // monitor is synchronized
 		System.out.println("Spy: "+ID +" is leaving message: "+ message);
 		synchronized(monitor){
 			monitor.notify();
@@ -61,16 +67,15 @@ public class Espionage extends Thread{
                 System.out.println("Agent: "+ID +" is waiting");
                 monitor.wait();}
 		}
-//		System.out.println("BEFORE: "+message.isEmpty());
 		// use the message that was updated in dropSpyMsg
 		String saveMessage=message;
 		
-		//reset the message to empty
+		// reset the message to empty
 		message="";
 		
 		System.out.println("Agent: "+ID +" is picking message: "+ saveMessage);
 		
-//		System.out.println("AFTER: "+message.isEmpty());
+        // notify
 		synchronized(monitor){
 			monitor.notify();
         }
@@ -80,8 +85,12 @@ public class Espionage extends Thread{
         
 		//method call to test one agent and one spy
 		oneMsgTest();
-		Thread.sleep(2000);
+		
+        // create a time gap between the two tests
+        Thread.sleep(2000);
 		System.out.println("");
+        
+        
 		// number of messages for the multi agent problem
 		// number of agents = number of spies = number of messages
 		int numMessages=3;
@@ -131,6 +140,7 @@ public class Espionage extends Thread{
 			agent[i]=new Espionage("agent", i+1);
 		}
 		
+        //initialize each spy and agent
 		for(int i=0;i<spy.length;i++){
 			agent[i].start();
 			spy[i].start();
