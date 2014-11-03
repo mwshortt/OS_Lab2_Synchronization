@@ -10,4 +10,6 @@ Complile and run the Lazy Dentist Problem with the following commands where N is
 javac LazyDentist.java
 java LazyDentist N
 
-
+Complile and run Problem # 3 with the following commands:
+javac Questions3.java
+java Questions3

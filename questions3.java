@@ -1,4 +1,4 @@
-public class questions3 {
+public class Questions3 {
 	public static void main(String args[]) throws InterruptedException{
 		oneSpyTest();
 		multiSpyTest();
