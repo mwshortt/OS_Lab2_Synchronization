@@ -16,7 +16,8 @@ public class Espionage extends Thread{
 		if (name.equals("agent")){
 			try {
 				System.out.println("Starting agent: "+ID);
-				agentPickMsg();
+				synchronized(monitor){
+                    agentPickMsg();}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -24,8 +25,9 @@ public class Espionage extends Thread{
 		
 		if (name.equals("spy")){
 			try {
-				System.out.println("Starting spy: "+ID);
-				dropSpyMsg();
+				synchronized(monitor){
+                    System.out.println("Starting spy: "+ID);
+                    dropSpyMsg();}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -35,36 +37,43 @@ public class Espionage extends Thread{
     public synchronized void dropSpyMsg() throws InterruptedException{
 		
 		// wait until there is no previous message
-		while(!this.message.isEmpty()){
+		while(!message.isEmpty()){
 			synchronized(monitor){
                 System.out.println("Spy: "+ID +" is waiting");
                 monitor.wait();}
 		}
 		
-		this.message="Message: "+ID;
+		message="Message: "+ID;
 		
 		// A spy writes the message on a piece of paper
 		// and drops it at a predetermined location
 		System.out.println("Spy: "+ID +" is leaving message: "+ message);
-		synchronized(monitor){monitor.notify();}
+		synchronized(monitor){
+			monitor.notify();
+		}
 	}
 	
-	public synchronized void agentPickMsg () throws InterruptedException{
+	public synchronized void agentPickMsg() throws InterruptedException{
 		
 		// wait until there is a message
-		while(this.message.isEmpty()){
+		while(message.isEmpty()){
 			synchronized(monitor){
                 System.out.println("Agent: "+ID +" is waiting");
                 monitor.wait();}
 		}
-        
+		System.out.println("BEFORE: "+message.isEmpty());
 		// use the message that was updated in dropSpyMsg
-		// String returnMessage=this.message;
-		System.out.println("Agent: "+ID +" is picking messgae: "+ message);
+		String saveMessage=message;
 		
 		//reset the message to empty
-		this.message="";
-		synchronized(monitor){monitor.notify();}
+		message="";
+		
+		System.out.println("Agent: "+ID +" is picking messgae: "+ saveMessage);
+		
+		System.out.println("AFTER: "+message.isEmpty());
+		synchronized(monitor){
+			monitor.notify();
+        }
 	}
 	
 	public static void main(String args[]) throws InterruptedException{
@@ -119,15 +128,12 @@ public class Espionage extends Thread{
 		for(int i=0;i<spy.length;i++){
 			// create a spy and agent for each element of array
 			spy[i]=new Espionage("spy", i+1);
-			spy[i].start();
 			agent[i]=new Espionage("agent", i+1);
 		}
 		
 		for(int i=0;i<spy.length;i++){
-			
-			// receive the message through agent; msg is the spy number
 			agent[i].start();
-            
+			spy[i].start();
 		}
 		System.out.println("END: Multi-agent and multi-spy");
         
