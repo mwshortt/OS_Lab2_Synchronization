@@ -61,16 +61,16 @@ public class Espionage extends Thread{
                 System.out.println("Agent: "+ID +" is waiting");
                 monitor.wait();}
 		}
-		System.out.println("BEFORE: "+message.isEmpty());
+//		System.out.println("BEFORE: "+message.isEmpty());
 		// use the message that was updated in dropSpyMsg
 		String saveMessage=message;
 		
 		//reset the message to empty
 		message="";
 		
-		System.out.println("Agent: "+ID +" is picking messgae: "+ saveMessage);
+		System.out.println("Agent: "+ID +" is picking message: "+ saveMessage);
 		
-		System.out.println("AFTER: "+message.isEmpty());
+//		System.out.println("AFTER: "+message.isEmpty());
 		synchronized(monitor){
 			monitor.notify();
         }
