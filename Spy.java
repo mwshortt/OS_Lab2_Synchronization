@@ -1,13 +1,11 @@
 public class Spy extends Thread{
 	
-	Espionage espionage;
-	public Spy(Espionage espionage){
-		this.espionage= espionage;
-	}
-	
-	public void sendMessage(String msg) throws InterruptedException{
+	public void sendMessage(String msg, Espionage espionage) throws InterruptedException{
+		
 		try {
+			// use espionage to drop message
 			espionage.dropSpyMsg(msg);
+
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

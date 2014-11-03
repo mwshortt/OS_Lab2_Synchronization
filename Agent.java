@@ -1,12 +1,9 @@
 public class Agent extends Thread{
-	public Agent(Espionage espionage){
-		this.espionage= espionage;		
-	}
 	
-	Espionage espionage;
-	
-	public String getMessage() throws InterruptedException{
+	public String getMessage(Espionage espionage) throws InterruptedException{
 		try {
+
+			// use espionage's synchronized method to get the message
 			return espionage.agentPickMsg();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
